@@ -1,0 +1,19 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title> 简单序列图生成器</title>
+    <script type="text/javascript" src="ssd.js"></script>
+</head>
+<body>
+<form id="dsl_form" style="float:left">
+    <textarea id="ssdd" name="simple sequence diagram descriptor" autofocus="true" cols="60" rows="12" style="margin-right:20px;"></textarea>
+    <div>
+        <input type="button" value="生成序列图" onclick=" generate();"
+               style="display:block; float:right;margin-top:20px; margin-right:20px;">
+    </div>
+</form>
+<canvas id="ssd" width="1280" height="800" style="border:1px solid #c3c3c3;" style="float:left" >
+    Your browser does not support the canvas element.
+</canvas>
+</body>
+</html>
