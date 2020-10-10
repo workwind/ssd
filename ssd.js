@@ -49,7 +49,11 @@ function Arrow(from ,type, to , message){
     }
 
     this.draw = function (ctx,style){
+        ctx.strokeStyle = "black";
+        ctx.fillStyle = "black";
+
         ctx.beginPath();
+
         if( this.type == 3 ){
             //画虚线
             ctx.setLineDash([10,3]);
@@ -59,15 +63,23 @@ function Arrow(from ,type, to , message){
         //画实线
         ctx.moveTo(this.fromX() , this.arrowY );
         ctx.lineTo(this.toX() ,this.arrowY);
-
+        ctx.stroke();
         //画箭头
+        ctx.beginPath();
         const dx = this.fromX() < this.toX() ?  (-1) * style.arrow.triangle.dx : style.arrow.triangle.dx;
         ctx.moveTo(this.toX() + dx , this.arrowY - style.arrow.triangle.dy);
         ctx.lineTo(this.toX() ,this.arrowY);
         ctx.lineTo(this.toX() +dx ,this.arrowY + style.arrow.triangle.dy);
+        if(this.type == 1){
+            ctx.closePath();
+            ctx.fill();
+        }
         ctx.stroke();
 
+
         //画文字消息
+        ctx.font="10pt Arial";
+        ctx.textBaseline = "bottom";
         ctx.fillText(this.message, (this.fromX() + this.toX()) / 2 , this.arrowY , this.toX() - this.fromX()  );
     }
 }
@@ -81,15 +93,23 @@ function Actor(objectName,className){
     this.height =style.actor.height;//default value
 
     this.draw = function (ctx){
-        ctx.strokeRect(this.x, this.y,this.width , this.height);
+        //画参与者框框
+        ctx.beginPath();
+        ctx.fillStyle="#176AA6";
+        ctx.fillRect(this.x, this.y,this.width , this.height);
+        //填写文字
+        ctx.fillStyle = "#FFFFFF";
         ctx.textAlign="center";
-        ctx.font="20px Arial";
+        ctx.font="15pt Arial";
         ctx.fillText(this.className, this.x + this.width / 2 , this.y + this.height *3/4, this.width);
-
+        //画生命线
+        ctx.strokeStyle  = "#176AA6";
+        ctx.setLineDash([10,3]);
+        const lifeLineX = this.x + this.width / 2;
         const y1 = this.y + this.height;
         const y2 = y1 +500; //TODO 抽出变量
-        ctx.moveTo(this.x + this.width / 2 ,y1 );
-        ctx.lineTo(this.x + this.width / 2 ,y2);
+        ctx.moveTo( lifeLineX,y1 );
+        ctx.lineTo( lifeLineX ,y2);
         ctx.stroke();
     }
 
@@ -176,7 +196,7 @@ function generate(){
 
     const c = document.getElementById("ssd");
     const ctx = c.getContext("2d");
-    ctx.fillStyle = "#ff0000";
+
     for (let i = 0; i < actors.length; i++) {
         actors[i].draw(ctx);
     }
