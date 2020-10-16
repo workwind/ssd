@@ -136,10 +136,10 @@ function analyse(ssdd,actors,arrows){
             const tag = row.substring(0,index)
             const message = row.substring(index+1, row.length);
             //判断处理返回消息
-            let ti = tag.indexOf("...>");
+            let ti = tag.indexOf("<--");
             if (ti >0 && ti < tag.length){
-                from = findActor(actors,tag.substring(0,ti) );
-                to = findActor(actors,tag.substring(ti+4, tag.length) );
+                to = findActor(actors,tag.substring(0,ti) );
+                from = findActor(actors,tag.substring(ti+3, tag.length) );
                 let returnArrow =new Arrow(from,3,to, message);
                 console.log(returnArrow);
                 arrows.push(returnArrow);
